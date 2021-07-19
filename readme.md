@@ -19,3 +19,5 @@ node index.js 3000 http://abc-doleta.com
 ```
 
 E então tudo que bater no seu localhost (ip da sua maquina), na porta que foi indicada por você, será vai passar imetiatamente para a url que foi indicada.
+
+![Imagem do Emulador](https://raw.githubusercontent.com/jose-leles/local-proxy-emulator/main/img/emulator.png)
