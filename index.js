@@ -7,16 +7,24 @@ const fs = require('fs')
 const app = express()
 const axios = require('axios')
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 const port = parseInt(ARGS[0]);
 const URL_BASE = ARGS[1];
 
+function formatAsFormData(object){
+  const entries = Object.entries(object);
+  return entries.map(([key, value]) => key + "=" + value).join("&");
+}
 app.use((req, res, next) => {
   let { method, headers, path, query, body } = req;
-  const params = Object.entries(query);
   axios({
     method,
-    url: `${URL_BASE}/${path}?${params.map(([key, value]) => key + "=" + value).join("&")}`,
-    data: body, 
+    url: `${URL_BASE}/${path}?${formatAsFormData(query)}`,
+    data: body ? formatAsFormData(body) : '', 
     withCredentials: true,
     responseType: 'arraybuffer',
     headers:{
