@@ -11,11 +11,12 @@ const port = parseInt(ARGS[0]);
 const URL_BASE = ARGS[1];
 
 app.use((req, res, next) => {
-  let { method, headers, path, params} = req;
+  let { method, headers, path, query, body } = req;
+  const params = Object.entries(query);
   axios({
     method,
-    url: `${URL_BASE}/${path}?${params.length > 0 ? params.map(p => p.name + "=" + p.value).join("&") : ''}`,
-    data: req.body, 
+    url: `${URL_BASE}/${path}?${params.map(([key, value]) => key + "=" + value).join("&")}`,
+    data: body, 
     withCredentials: true,
     responseType: 'arraybuffer',
     headers:{
